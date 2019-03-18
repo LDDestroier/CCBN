@@ -1751,13 +1751,7 @@ local startGame = function()
 	act.player.newPlayer(5, 2, 2, -1, "7")
 	for y = 1, 3 do
 		for x = 1, 6 do
-			if x % 3 == 1 then
-				act.stage.newPanel(x, y, "normal")
-			elseif x % 3 == 2 then
-				act.stage.newPanel(x, y, "ice")
-			elseif x % 3 == 0 then
-				act.stage.newPanel(x, y, "poison")
-			end
+			act.stage.newPanel(x, y, "normal")
 		end
 	end
 	transmit({
