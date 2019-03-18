@@ -1,0 +1,21 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "SandStage",
+		description = "Turns all panels into sand!",
+		cooldown = {
+			shoot = 8,
+			move = 4
+		}
+	},
+	logic = function(info)
+
+		for y, row in pairs(stage.panels) do
+			for x, panel in pairs(row) do
+				act.stage.setType(x, y, "sand")
+			end
+		end
+
+		return false
+	end
+}

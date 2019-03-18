@@ -1,0 +1,28 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "TripleBomb",
+		description = "Lob three I-shaped bombs 2 panels forward!",
+		cooldown = {
+			shoot = 6,
+			move = 4
+		}
+	},
+	logic = function(info)
+		if info.frame == 0 then
+			info.player.canMove = false
+			info.player.canShoot = false
+		else
+			if info.frame == 3 * 4 + 1 then
+				info.player.canMove = true
+				info.player.canShoot = true
+				info.player.cooldown.shoot = 6
+				info.player.cooldown.shoot = 4
+				return false
+			elseif info.frame % 4 == 0 then
+				act.projectile.newProjectile(info.x, info.y, info.player, "singlebomb", info.frame < 3 * 4)
+			end
+		end
+		return true
+	end
+}

@@ -1,0 +1,15 @@
+local stage, players, objects, projectiles, act, images, game = ...
+return {
+	info = {
+		name = "FullCustom",
+		description = "Instantly fills custom bar!",
+		cooldown = {
+			shoot = 6,
+			move = 2
+		}
+	},
+	logic = function(info)
+		game.custom = game.customMax
+		return false
+	end,
+}

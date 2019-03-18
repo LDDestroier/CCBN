@@ -1,0 +1,21 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "IceStage",
+		description = "Turns all panels into ice!",
+		cooldown = {
+			shoot = 8,
+			move = 4
+		}
+	},
+	logic = function(info)
+
+		for y, row in pairs(stage.panels) do
+			for x, panel in pairs(row) do
+				act.stage.setType(x, y, "ice")
+			end
+		end
+
+		return false
+	end
+}

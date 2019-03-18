@@ -1,0 +1,24 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "IceBall",
+		description = "Lob a freezing ball 2 panels forward!",
+		cooldown = {
+			shoot = 6,
+			move = 5
+		}
+	},
+	logic = function(info)
+		local maxDist = 3
+		local maxFrames = 10
+		local parabola = math.sin((math.pi / maxFrames) * info.frame) * 2
+		if parabola < 0.1 and info.frame > 3 then
+			act.stage.setDamage(info.x, info.y, 120, info.owner, 1, false)
+			act.stage.setType(info.x, info.y, "ice")
+			return false
+		else
+			info.x = info.x + (maxDist / maxFrames) * info.direction
+		end
+		return true, {{images.cannon, info.x, info.y - parabola}}
+	end
+}

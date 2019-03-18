@@ -1,0 +1,15 @@
+local stage, players, objects, projectiles, act, images, game = ...
+return {
+	info = {
+		name = "SlowGauge",
+		description = "Halves custom gauge speed!",
+		cooldown = {
+			shoot = 6,
+			move = 2
+		}
+	},
+	logic = function(info)
+		game.customSpeed = 0.5
+		return false
+	end,
+}

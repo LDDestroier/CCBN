@@ -1,0 +1,24 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "Repair",
+		description = "Fixes all of your panels!",
+		cooldown = {
+			shoot = 8,
+			move = 4
+		}
+	},
+	logic = function(info)
+
+		for y, row in pairs(stage.panels) do
+			for x, panel in pairs(row) do
+				if panel.owner == info.owner then
+					act.stage.crackPanel(x, y, -2)
+					act.stage.setType(x, y, "normal")
+				end
+			end
+		end
+
+		return false
+	end
+}

@@ -1,0 +1,27 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "Prism",
+		description = "Throws a prism that deflects attacks!",
+		cooldown = {
+			shoot = 6,
+			move = 5
+		}
+	},
+	logic = function(info)
+		local maxDist = 3
+		local maxFrames = 10
+		local parabola = math.sin((math.pi / maxFrames) * info.frame) * 2
+		if parabola < 0.1 and info.frame > 3 then
+			if act.stage.checkIfWalkable(info.x, info.y) then
+				act.object.newObject(info.x, info.y, info.owner, info.direction, "prism")
+			else
+				act.stage.setDamage(info.x, info.y, 80, 0, 1, false)
+			end
+			return false
+		else
+			info.x = info.x + (maxDist / maxFrames) * info.direction
+		end
+		return true, {{images.cannon, info.x, info.y - parabola}}
+	end
+}

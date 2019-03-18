@@ -1,0 +1,18 @@
+local stage, players, objects, projectiles, act, images = ...
+return {
+	info = {
+		name = "LongSword",
+		description = "Slash forwards 2 panels!",
+		cooldown = {
+			shoot = 8,
+			move = 4
+		}
+	},
+	logic = function(info)
+
+		act.stage.setDamage(info.x + info.direction,     info.y, 80, info.owner, 1)
+		act.stage.setDamage(info.x + info.direction * 2, info.y, 80, info.owner, 1)
+
+		return false
+	end
+}
