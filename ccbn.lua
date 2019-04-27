@@ -17,7 +17,7 @@ local objects = {}
 local projectiles = {}
 local game = {
 	custom = 0,
-	customMax = 140,
+	customMax = 120,
 	customSpeed = 1,
 	inChipSelect = true,
 	paused = false,
@@ -126,6 +126,7 @@ local getSize = function(image)
 	return x, y
 end
 local colorSwap = function(image, text, back)
+	if #image == 0 then return {} end
 	local output = {{},{},{}}
 	for y = 1, #image[1] do
 		output[1][y] = image[1][y]
@@ -535,6 +536,8 @@ act.stage.crackPanel = function(x, y, amount)
 		if act.stage.getType(x, y) == "metal" then
 			maxCrack = 0
 		elseif act.player.checkPlayerAtPos(x, y) then
+			maxCrack = 1
+		elseif act.object.checkObjectAtPos(x, y) then
 			maxCrack = 1
 		else
 			maxCrack = 2
@@ -1072,9 +1075,9 @@ local loadChips = function(env)
 	local oList = fs.list(config.objectDir)
 	local contents
 	local cOutput, oOutput = {}, {}
-	for i = 1, #cList do
-		if not fs.isDir(fs.combine(config.chipDir, cList[i])) then
-			cOutput[cList[i]] = loadfile( fs.combine(config.chipDir, cList[i]))(
+	for i = 1, #oList do
+		if not fs.isDir(fs.combine(config.objectDir, oList[i])) then
+			oOutput[oList[i]] = loadfile( fs.combine(config.objectDir, oList[i]))(
 				stage,
 				players,
 				objects,
@@ -1085,9 +1088,9 @@ local loadChips = function(env)
 			)
 		end
 	end
-	for i = 1, #oList do
-		if not fs.isDir(fs.combine(config.objectDir, oList[i])) then
-			oOutput[oList[i]] = loadfile( fs.combine(config.objectDir, oList[i]))(
+	for i = 1, #cList do
+		if not fs.isDir(fs.combine(config.chipDir, cList[i])) then
+			cOutput[cList[i]] = loadfile( fs.combine(config.chipDir, cList[i]))(
 				stage,
 				players,
 				objects,
@@ -1194,7 +1197,7 @@ render = function(extraImage)
 				
 				local imm
 				for kk, imd in pairs(v.imageData) do
-					imm = colorSwap(colorSwap(imd[1], {["f"] = " "}), imd[4] or {})
+					imm = colorSwap(colorSwap(imd[1], {["f"] = " ", ["e"] = (v.panelOwner == 2 and "b" or "e")}), imd[4] or {})
 					buffer[#buffer + 1] = {
 						imd[5] == -1 and flipX(imm) or imm,
 						math.floor((imd[2] - 1) * stage.panelWidth  + 4 + stage.scrollX),
@@ -1512,7 +1515,7 @@ local runGame = function()
 		if isHost then
 
 			for id, proj in pairs(projectiles) do
-				local success, imageData = chips[proj.chipType].logic(proj)
+				local success, imageData = chips[proj.chipType].logic(proj, players, objects, stage)
 				if success then
 					projectiles[id].imageData = imageData
 					projectiles[id].frame = proj.frame + 1
