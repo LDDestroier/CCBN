@@ -10,9 +10,9 @@ return {
 	},
 	logic = function(info)
 
-		act.projectile.newProjectile(info.x, info.y - 1, info.player, "panelshot", false, info.altDamage or 100)
-		act.projectile.newProjectile(info.x, info.y,     info.player, "panelshot", true,  info.altDamage or 100)
-		act.projectile.newProjectile(info.x, info.y + 1, info.player, "panelshot", false, info.altDamage or 100)
+		act.projectile.newProjectile(info.x, info.y - 1, info.player, "crackshot", false, info.altDamage or 100)
+		act.projectile.newProjectile(info.x, info.y,     info.player, "crackshot", true,  info.altDamage or 100)
+		act.projectile.newProjectile(info.x, info.y + 1, info.player, "crackshot", false, info.altDamage or 100)
 
 		return false
 

@@ -8,7 +8,7 @@ return {
 			move = 4
 		}
 	},
-	logic = function(info)
+	logic = function(info, players, objects, stage)
 		info.x = info.x + (4 / stage.panelWidth) * info.direction
 
 		act.stage.setDamage(info.x, info.y, 20, info.owner, 1)
